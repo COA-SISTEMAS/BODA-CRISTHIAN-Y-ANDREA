@@ -11,865 +11,237 @@
 
   <style>
     :root {
-      --paper: #f3efe7;
-      --ink: #25231f;
-      --soft: #756f65;
-      --line: rgba(37, 35, 31, .2);
-      --dark: #171614;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      -webkit-text-size-adjust: 100%;
-      touch-action: pan-y;
-    }
-
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Montserrat, sans-serif;
-      font-weight: 300;
-      -webkit-text-size-adjust: 100%;
-      touch-action: pan-y;
-      overflow-x: hidden;
-    }
-
-    .page { overflow: hidden; }
-
-    body.invite-locked {
-      overflow: hidden;
-      height: 100svh;
-      position: fixed;
-      width: 100%;
-      left: 0;
-      right: 0;
-      top: 0;
-    }
-
-    /* =========================
-       APERTURA
-       ========================= */
-    .opening {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background:
-        linear-gradient(180deg, rgba(20,17,14,.28), rgba(20,17,14,.72)),
-        url('pexels-mlkbnl-20654838.jpg') center / cover no-repeat;
-      transition: .8s;
-    }
-
-    .opening.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .opening-inner {
-      text-align: center;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .opening-label {
-      font-size: 10px;
-      letter-spacing: .4em;
-      text-transform: uppercase;
-      margin-bottom: 36px;
-    }
-
-    .open-button {
-      border: 1px solid #fff;
-      background: #f7f3eb;
-      color: #25231f;
-      padding: 17px 36px;
-      min-width: 230px;
-      font: 500 10px Montserrat;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .opening-note {
-      margin-top: 30px;
-      font: 400 38px 'Cormorant Garamond';
-    }
-
-    .opening-note small {
-      display: block;
-      font: 300 8px Montserrat;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      margin-top: 10px;
-    }
-
-    /* =========================
-       PORTADA / HERO
-       ========================= */
-    .hero {
-      min-height: 100svh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      position: relative;
-      background:
-        linear-gradient(180deg, rgba(12,11,10,.12), rgba(12,11,10,.64)),
-        url('Ramo%20de%20tulipanes%20blancos%20y%20lazo%20satinado.png') center / cover no-repeat;
-    }
-
-    .hero:after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.58));
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      width: 100%;
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10vh 20px;
-    }
-
-    .eyebrow,
-    .hero-date,
-    .scroll {
-      font-size: 9px;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow { margin-bottom: 20px; }
-
-    .names {
-      font: 300 clamp(48px,12vw,125px)/.82 'Cormorant Garamond';
-      margin: 0;
-      text-transform: uppercase;
-    }
-
-    .names em { font-size: .55em; }
-
-    .hero-date { margin-top: 28px; }
-
-    .scroll {
-      margin-top: 32px;
-      opacity: .8;
-    }
-
-    /* =========================
-       SECCIONES GENERALES
-       ========================= */
-    .section {
-      padding: 100px 22px;
-      text-align: center;
-    }
-
-    .section-title {
-      font: 400 clamp(42px,8vw,68px)/.95 'Cormorant Garamond';
-      margin: 0 0 18px;
-    }
-
-    .rule {
-      width: 60px;
-      height: 1px;
-      background: currentColor;
-      opacity: .35;
-      margin: 24px auto;
-    }
-
-    .copy {
-      max-width: 650px;
-      margin: auto;
-      font-size: 13px;
-      line-height: 2;
-      color: var(--soft);
-    }
-
-    .quote {
-      max-width: 600px;
-      margin: 40px auto 0;
-      font: italic 28px/1.35 'Cormorant Garamond';
-    }
-
-    /* =========================
-       UN DIA PARA RECORDAR
-       ========================= */
-    .memory-section {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .memory-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .memory-decoration {
-      position: absolute;
-      z-index: 1;
-      width: clamp(170px,17vw,300px);
-      pointer-events: none;
-    }
-
-    .memory-decoration.left {
-      left: 1.5%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .memory-decoration.right {
-      right: 1.5%;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    /* =========================
-       FECHA Y CUENTA REGRESIVA
-       ========================= */
-    .date-countdown {
-      max-width: 900px;
-      margin: 24px auto 44px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-    }
-
-    .date-card,
-    .countdown-card {
-      position: relative;
-      border: 1px solid rgba(37,35,31,.18);
-      background: rgba(255,255,255,.18);
-      padding: 25px 22px;
-      box-shadow: 0 10px 28px rgba(55,45,35,.04);
-    }
-
-    .date-card:before,
-    .countdown-card:before {
-      content: '';
-      position: absolute;
-      inset: 6px;
-      border: 1px solid rgba(37,35,31,.08);
-      pointer-events: none;
-    }
-
-    .date-label,
-    .countdown-label {
-      font-size: 8px;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--soft);
-      margin-bottom: 12px;
-    }
-
-    .calendar-title {
-      font: 400 28px 'Cormorant Garamond';
-      margin-bottom: 14px;
-    }
-
-    .calendar {
-      max-width: 300px;
-      margin: auto;
-    }
-
-    .weekdays,
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-    }
-
-    .weekdays span {
-      font-size: 7px;
-      color: #8a8378;
-      padding: 4px 0;
-    }
-
-    .calendar-grid span {
-      height: 30px;
-      display: grid;
-      place-items: center;
-      font: 400 12px 'Cormorant Garamond';
-      color: #625d55;
-    }
-
-    .calendar-grid .empty { visibility: hidden; }
-
-    .calendar-grid .wedding-day {
-      position: relative;
-      color: #fff;
-      font: 500 9px Montserrat;
-      z-index: 1;
-    }
-
-    .calendar-grid .wedding-day:before {
-      content: '♥';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-50%);
-      font-size: 29px;
-      color: #7c5d50;
-      z-index: -1;
-    }
-
-    .calendar-note {
-      margin-top: 12px;
-      font-size: 8px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--soft);
-    }
-
-    .countdown-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .countdown-title {
-      font: 400 32px/1.05 'Cormorant Garamond';
-      margin: 0 0 16px;
-    }
-
-    .countdown-days {
-      font: 400 clamp(58px,9vw,86px)/.9 'Cormorant Garamond';
-    }
-
-    .countdown-days small {
-      font: 300 13px Montserrat;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--soft);
-    }
-
-    .countdown-units {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .countdown-unit strong {
-      display: block;
-      font: 400 22px 'Cormorant Garamond';
-    }
-
-    .countdown-unit span {
-      font-size: 7px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--soft);
-    }
-
-    .countdown-message {
-      font: italic 19px 'Cormorant Garamond';
-      color: var(--soft);
-      margin-top: 15px;
-    }
-
-    /* =========================
-       NUESTRO DIA
-       ========================= */
-    .our-day {
-      color: #f8f5ee;
-      background:
-        linear-gradient(180deg, rgba(15,13,11,.48), rgba(15,13,11,.68)),
-        url('pexels-franco-monsalvo-252430633-30740015.jpg') center / cover no-repeat;
-    }
-
-    .timeline {
-      max-width: 620px;
-      margin: 55px auto 0;
-    }
-
-    .event {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      text-align: left;
-      padding: 25px 0;
-      border-bottom: 1px solid rgba(255,255,255,.2);
-    }
-
-    .time {
-      font: 400 28px 'Cormorant Garamond';
-    }
-
-    .event h3 {
-      font-size: 10px;
-      letter-spacing: .25em;
-      text-transform: uppercase;
-      margin: 3px 0 8px;
-    }
-
-    .event p {
-      font-size: 11px;
-      line-height: 1.7;
-      color: #e0ddd6;
-      margin: 0;
-    }
-
-    /* =========================
-       LA CELEBRACION
-       ========================= */
-    .celebration-section {
-      position: relative;
-      background: radial-gradient(circle at 50% 38%, rgba(63,52,42,.1), transparent 58%), var(--paper);
-    }
-
-    .celebration-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .details {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      max-width: 1000px;
-      margin: 60px auto 0;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .detail {
-      padding: 38px 20px;
-      border-right: 1px solid var(--line);
-    }
-
-    .detail:last-child { border: 0; }
-
-    .detail h3,
-    .info-block h3 {
-      font: 400 30px 'Cormorant Garamond';
-      margin: 0 0 12px;
-    }
-
-    .detail p,
-    .info-block p {
-      font-size: 11px;
-      line-height: 1.8;
-      color: var(--soft);
-    }
-
-    .info {
-      max-width: 720px;
-      margin: 45px auto;
-      text-align: left;
-    }
-
-    .info-block {
-      padding: 30px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    /* =========================
-       CONFIRMACION
-       ========================= */
-    .dark {
-      background: var(--dark);
-      color: #f7f3eb;
-    }
-
-    .dark .copy { color: #d4d0c8; }
-
-    .rsvp {
-      max-width: 570px;
-      margin: 50px auto;
-      text-align: left;
-    }
-
-    .field { margin-bottom: 17px; }
-
-    .field label {
-      display: block;
-      font-size: 9px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .field input,
-    .field textarea {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,.22);
-      background: transparent;
-      padding: 14px;
-      color: inherit;
-      font: 300 12px Montserrat;
-    }
-
-    .field textarea { min-height: 100px; }
-
-    .choices {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .choice input {
-      position: absolute;
-      opacity: 0;
-    }
-
-    .choice label {
-      border: 1px solid rgba(255,255,255,.22);
-      padding: 15px;
-      text-align: center;
-    }
-
-    .choice input:checked + label {
-      background: #f3efe7;
-      color: #25231f;
-    }
-
-    .counter {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid rgba(255,255,255,.22);
-      padding: 4px;
-    }
-
-    .counter button {
-      width: 40px;
-      height: 38px;
-      border: 0;
-      background: transparent;
-      color: inherit;
-      font-size: 22px;
-    }
-
-    .counter output {
-      font: 400 25px 'Cormorant Garamond';
-    }
-
-    .submit {
-      width: 100%;
-      padding: 17px;
-      border: 1px solid #f3efe7;
-      background: #f3efe7;
-      color: #25231f;
-      font-size: 9px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-    }
-
-    .success {
-      display: none;
-      text-align: center;
-      padding: 35px 10px;
-    }
-
-    .success.show { display: block; }
-
-    .success h2 {
-      font: 400 42px 'Cormorant Garamond';
-    }
-
-    /* =========================
-       PIE DE PAGINA
-       ========================= */
-    .footer {
-      position: relative;
-      overflow: hidden;
-      padding: 105px 20px;
-      text-align: center;
-      background: #e8e2d7;
-    }
-
-    .footer-names {
-      position: relative;
-      z-index: 2;
-      font: 400 52px 'Cormorant Garamond';
-    }
-
-    .footer p {
-      position: relative;
-      z-index: 2;
-      font-size: 9px;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--soft);
-    }
-
-    .footer-butterfly {
-      position: absolute;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .footer-butterfly.left {
-      left: 7%;
-      top: 28px;
-      width: 125px;
-      transform: rotate(-24deg) scaleX(-1);
-    }
-
-    .footer-butterfly.right {
-      right: 7%;
-      bottom: 22px;
-      width: 105px;
-      transform: rotate(145deg);
-    }
-
-    /* =========================
-       TELEFONO
-       ========================= */
-    @media (max-width: 700px) {
-      .section {
-        padding: 80px 20px;
-        .memory-decoration {
-  display: none;
-          .our-day{
-  background-size: 80% auto;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-        }
-
-      .hero {
-        min-height: 100dvh;
-        background-position: 75% center;
+      --paper:#f3efe7;
+      --ink:#25231f;
+      --soft:#756f65;
+      --line:rgba(37,35,31,.2);
+      --dark:#171614;
+
+      /* =====================================================
+         CONTROLES DE IMÁGENES — CAMBIA SOLO ESTOS VALORES
+         ===================================================== */
+      /* 1. FOTO DE APERTURA */
+      --opening-image-size:cover;
+      --opening-image-position:50% 50%;
+      --opening-mobile-size:cover;
+      --opening-mobile-position:68% 50%;
+
+      /* 2. FOTO DE PORTADA / HERO */
+      --hero-image-size:cover;
+      --hero-image-position:50% 50%;
+      --hero-mobile-size:cover;
+      --hero-mobile-position:75% 50%;
+
+      /* 3. DECORACIÓN DORADA IZQUIERDA — 1.png */
+      --memory-left-width:clamp(170px,17vw,300px);
+      --memory-left-position:1.5% 50%;
+      --memory-left-mobile-width:0px;
+      --memory-left-mobile-position:-10px 50%;
+
+      /* 4. DECORACIÓN DORADA DERECHA — 2.png */
+      --memory-right-width:clamp(170px,17vw,300px);
+      --memory-right-position:1.5% 50%;
+      --memory-right-mobile-width:0px;
+      --memory-right-mobile-position:-10px 50%;
+
+      /* 5. FOTO DE LA PAREJA — NUESTRO DÍA */
+      --our-day-image-size:cover;
+      --our-day-image-position:50% 50%;
+      --our-day-mobile-size:100% auto;
+      --our-day-mobile-position:50% 50%;
+
+      /* 6. MARIPOSA DORADA IZQUIERDA DEL PIE */
+      --footer-butterfly-left-width:125px;
+      --footer-butterfly-left-position:7% 28px;
+      --footer-butterfly-left-rotation:-24deg;
+
+      /* 7. MARIPOSA DORADA DERECHA DEL PIE */
+      --footer-butterfly-right-width:105px;
+      --footer-butterfly-right-position:7% 22px;
+      --footer-butterfly-right-rotation:145deg;
+
+      /* CONTROLES MÓVILES DEL PIE */
+      --footer-mobile-left-width:85px;
+      --footer-mobile-left-position:-14px 25px;
+      --footer-mobile-right-width:72px;
+      --footer-mobile-right-position:-12px 18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;touch-action:pan-y}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Montserrat,sans-serif;font-weight:300;-webkit-text-size-adjust:100%;touch-action:pan-y;overflow-x:hidden}
+    .page{overflow:hidden}
+    body.invite-locked{overflow:hidden;height:100svh;position:fixed;width:100%;left:0;right:0;top:0}
+
+    /* ========================= APERTURA ========================= */
+    .opening{position:fixed;inset:0;z-index:50;display:grid;place-items:center;color:#fff;background:linear-gradient(180deg,rgba(20,17,14,.28),rgba(20,17,14,.72)),url('pexels-mlkbnl-20654838.jpg') var(--opening-image-position)/var(--opening-image-size) no-repeat;transition:.8s}
+    .opening.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .opening-inner{text-align:center;padding:20px;display:flex;flex-direction:column;align-items:center}
+    .opening-label{font-size:10px;letter-spacing:.4em;text-transform:uppercase;margin-bottom:36px}
+    .open-button{border:1px solid #fff;background:#f7f3eb;color:#25231f;padding:17px 36px;min-width:230px;font:500 10px Montserrat;letter-spacing:.3em;text-transform:uppercase;cursor:pointer}
+    .opening-note{margin-top:30px;font:400 38px 'Cormorant Garamond'}
+    .opening-note small{display:block;font:300 8px Montserrat;letter-spacing:.3em;text-transform:uppercase;margin-top:10px}
+
+    /* ========================= HERO ========================= */
+    .hero{min-height:100svh;display:flex;align-items:center;justify-content:center;color:#fff;position:relative;background:linear-gradient(180deg,rgba(12,11,10,.12),rgba(12,11,10,.64)),url('Ramo%20de%20tulipanes%20blancos%20y%20lazo%20satinado.png') var(--hero-image-position)/var(--hero-image-size) no-repeat}
+    .hero:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.58));pointer-events:none}
+    .hero-content{position:relative;z-index:1;text-align:center;width:100%;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10vh 20px}
+    .eyebrow,.hero-date,.scroll{font-size:9px;letter-spacing:.3em;text-transform:uppercase}
+    .eyebrow{margin-bottom:20px}
+    .names{font:300 clamp(48px,12vw,125px)/.82 'Cormorant Garamond';margin:0;text-transform:uppercase}
+    .names em{font-size:.55em}
+    .hero-date{margin-top:28px}
+    .scroll{margin-top:32px;opacity:.8}
+
+    /* ========================= GENERALES ========================= */
+    .section{padding:100px 22px;text-align:center}
+    .section-title{font:400 clamp(42px,8vw,68px)/.95 'Cormorant Garamond';margin:0 0 18px}
+    .rule{width:60px;height:1px;background:currentColor;opacity:.35;margin:24px auto}
+    .copy{max-width:650px;margin:auto;font-size:13px;line-height:2;color:var(--soft)}
+    .quote{max-width:600px;margin:40px auto 0;font:italic 28px/1.35 'Cormorant Garamond'}
+
+    /* ========================= UN DÍA PARA RECORDAR ========================= */
+    .memory-section{position:relative;overflow:hidden}
+    .memory-content{position:relative;z-index:2}
+    .memory-decoration{position:absolute;z-index:1;pointer-events:none}
+    .memory-decoration.left{width:var(--memory-left-width);left:var(--memory-left-position);top:50%;transform:translateY(-50%)}
+    .memory-decoration.right{width:var(--memory-right-width);right:var(--memory-right-position);top:50%;transform:translateY(-50%)}
+
+    /* ========================= FECHA / CUENTA ========================= */
+    .date-countdown{max-width:900px;margin:24px auto 44px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .date-card,.countdown-card{position:relative;border:1px solid rgba(37,35,31,.18);background:rgba(255,255,255,.18);padding:25px 22px;box-shadow:0 10px 28px rgba(55,45,35,.04)}
+    .date-card:before,.countdown-card:before{content:'';position:absolute;inset:6px;border:1px solid rgba(37,35,31,.08);pointer-events:none}
+    .date-label,.countdown-label{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--soft);margin-bottom:12px}
+    .calendar-title{font:400 28px 'Cormorant Garamond';margin-bottom:14px}
+    .calendar{max-width:300px;margin:auto}
+    .weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+    .weekdays span{font-size:7px;color:#8a8378;padding:4px 0}
+    .calendar-grid span{height:30px;display:grid;place-items:center;font:400 12px 'Cormorant Garamond';color:#625d55}
+    .calendar-grid .empty{visibility:hidden}
+    .calendar-grid .wedding-day{position:relative;color:#fff;font:500 9px Montserrat;z-index:1}
+    .calendar-grid .wedding-day:before{content:'♥';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:29px;color:#7c5d50;z-index:-1}
+    .calendar-note{margin-top:12px;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--soft)}
+    .countdown-card{display:flex;flex-direction:column;justify-content:center}
+    .countdown-title{font:400 32px/1.05 'Cormorant Garamond';margin:0 0 16px}
+    .countdown-days{font:400 clamp(58px,9vw,86px)/.9 'Cormorant Garamond'}
+    .countdown-days small{font:300 13px Montserrat;letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
+    .countdown-units{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+    .countdown-unit strong{display:block;font:400 22px 'Cormorant Garamond'}
+    .countdown-unit span{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
+    .countdown-message{font:italic 19px 'Cormorant Garamond';color:var(--soft);margin-top:15px}
+
+    /* ========================= NUESTRO DÍA ========================= */
+    .our-day{color:#f8f5ee;background:linear-gradient(180deg,rgba(15,13,11,.48),rgba(15,13,11,.68)),url('pexels-franco-monsalvo-252430633-30740015.jpg') var(--our-day-image-position)/var(--our-day-image-size) no-repeat}
+    .timeline{max-width:620px;margin:55px auto 0}
+    .event{display:grid;grid-template-columns:100px 1fr;text-align:left;padding:25px 0;border-bottom:1px solid rgba(255,255,255,.2)}
+    .time{font:400 28px 'Cormorant Garamond'}
+    .event h3{font-size:10px;letter-spacing:.25em;text-transform:uppercase;margin:3px 0 8px}
+    .event p{font-size:11px;line-height:1.7;color:#e0ddd6;margin:0}
+
+    /* ========================= CELEBRACIÓN ========================= */
+    .celebration-section{position:relative;background:radial-gradient(circle at 50% 38%,rgba(63,52,42,.1),transparent 58%),var(--paper)}
+    .celebration-content{position:relative;z-index:2}
+    .details{display:grid;grid-template-columns:repeat(3,1fr);max-width:1000px;margin:60px auto 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .detail{padding:38px 20px;border-right:1px solid var(--line)}
+    .detail:last-child{border:0}
+    .detail h3,.info-block h3{font:400 30px 'Cormorant Garamond';margin:0 0 12px}
+    .detail p,.info-block p{font-size:11px;line-height:1.8;color:var(--soft)}
+    .info{max-width:720px;margin:45px auto;text-align:left}
+    .info-block{padding:30px 0;border-bottom:1px solid var(--line)}
+
+    /* ========================= CONFIRMACIÓN ========================= */
+    .dark{background:var(--dark);color:#f7f3eb}
+    .dark .copy{color:#d4d0c8}
+    .rsvp{max-width:570px;margin:50px auto;text-align:left}
+    .field{margin-bottom:17px}
+    .field label{display:block;font-size:9px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+    .field input,.field textarea{width:100%;border:1px solid rgba(255,255,255,.22);background:transparent;padding:14px;color:inherit;font:300 12px Montserrat}
+    .field textarea{min-height:100px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .choice input{position:absolute;opacity:0}
+    .choice label{border:1px solid rgba(255,255,255,.22);padding:15px;text-align:center}
+    .choice input:checked+label{background:#f3efe7;color:#25231f}
+    .counter{display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,255,255,.22);padding:4px}
+    .counter button{width:40px;height:38px;border:0;background:transparent;color:inherit;font-size:22px}
+    .counter output{font:400 25px 'Cormorant Garamond'}
+    .submit{width:100%;padding:17px;border:1px solid #f3efe7;background:#f3efe7;color:#25231f;font-size:9px;letter-spacing:.28em;text-transform:uppercase}
+    .success{display:none;text-align:center;padding:35px 10px}
+    .success.show{display:block}
+    .success h2{font:400 42px 'Cormorant Garamond'}
+
+    /* ========================= PIE DE PÁGINA ========================= */
+    .footer{position:relative;overflow:hidden;padding:105px 20px;text-align:center;background:#e8e2d7}
+    .footer-names{position:relative;z-index:2;font:400 52px 'Cormorant Garamond'}
+    .footer p{position:relative;z-index:2;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--soft)}
+    .footer-butterfly{position:absolute;z-index:1;pointer-events:none}
+    .footer-butterfly.left{left:var(--footer-butterfly-left-position);top:auto;width:var(--footer-butterfly-left-width);transform:rotate(var(--footer-butterfly-left-rotation)) scaleX(-1)}
+    .footer-butterfly.right{right:var(--footer-butterfly-right-position);bottom:auto;width:var(--footer-butterfly-right-width);transform:rotate(var(--footer-butterfly-right-rotation))}
+
+    /* ========================= TELÉFONO ========================= */
+    @media(max-width:700px){
+      :root{
+        --opening-image-size:var(--opening-mobile-size);
+        --opening-image-position:var(--opening-mobile-position);
+        --hero-image-size:var(--hero-mobile-size);
+        --hero-image-position:var(--hero-mobile-position);
+        --memory-left-width:var(--memory-left-mobile-width);
+        --memory-right-width:var(--memory-right-mobile-width);
+        --our-day-image-size:var(--our-day-mobile-size);
+        --our-day-image-position:var(--our-day-mobile-position);
       }
-
-      .hero-content {
-        min-height: 100dvh;
-        padding: 10vh 14px 9vh;
-      }
-
-      .hero-date {
-        font-size: 9px;
-        letter-spacing: .22em;
-      }
-
-      .names {
-        font-size: clamp(48px,14vw,80px);
-      }
-
-      .opening {
-        min-height: 100dvh;
-        background-position: 68% 50%;
-      }
-
-      .our-day {
-        background-position: 40% center;
-      }
-
-      .memory-section {
-        padding-left: 44px;
-        padding-right: 44px;
-      }
-
-      .memory-section .section-title {
-        font-size: clamp(46px,13vw,58px);
-        line-height: .92;
-        margin-bottom: 28px;
-      }
-
-      .memory-decoration {
-        width: 120px;
-      }
-
-      .memory-decoration.left { left: -10px; }
-      .memory-decoration.right { right: -10px; }
-
-      .date-countdown {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        margin: 0 auto 38px;
-        width: 100%;
-        max-width: 330px;
-      }
-
-      .date-card,
-      .countdown-card {
-        padding: 24px 16px;
-      }
-
-      .calendar-title {
-        font-size: 29px;
-        margin-bottom: 18px;
-      }
-
-      .calendar { max-width: 100%; }
-
-      .weekdays,
-      .calendar-grid {
-        gap: 3px;
-      }
-
-      .weekdays span {
-        font-size: 8px;
-        padding: 5px 0;
-      }
-
-      .calendar-grid span {
-        height: 34px;
-        font-size: 14px;
-      }
-
-      .calendar-grid .wedding-day:before {
-        font-size: 33px;
-      }
-
-      .calendar-note {
-        margin-top: 16px;
-      }
-
-      .countdown-card {
-        min-height: 285px;
-        justify-content: flex-start;
-        padding-top: 26px;
-      }
-
-      .countdown-title {
-        font-size: 31px;
-        max-width: 290px;
-        margin: 4px auto 20px;
-      }
-
-      .countdown-days {
-        font-size: 78px;
-      }
-
-      .countdown-units {
-        margin-top: 24px;
-        gap: 8px;
-      }
-
-      .countdown-unit strong {
-        font-size: 24px;
-      }
-
-      .countdown-message {
-        font-size: 18px;
-      }
-
-      .details {
-        grid-template-columns: 1fr;
-      }
-
-      .detail {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .detail:last-child {
-        border-bottom: 0;
-      }
-
-      .event {
-        grid-template-columns: 82px 1fr;
-      }
-
-      .time {
-        font-size: 24px;
-      }
-
-      .footer {
-        padding: 90px 20px;
-      }
-
-      .footer-butterfly.left {
-        left: -14px;
-        top: 25px;
-        width: 85px;
-      }
-
-      .footer-butterfly.right {
-        right: -12px;
-        bottom: 18px;
-        width: 72px;
-      }
-
-      .opening-label { font-size: 8px; }
-      .opening-note { font-size: 30px; }
-
-      .field input,
-      .field textarea {
-        font-size: 16px;
-      }
+      .section{padding:80px 20px}
+      .hero{min-height:100dvh}
+      .hero-content{min-height:100dvh;padding:10vh 14px 9vh}
+      .hero-date{font-size:9px;letter-spacing:.22em}
+      .names{font-size:clamp(48px,14vw,80px)}
+      .opening{min-height:100dvh}
+      .memory-section{padding-left:44px;padding-right:44px}
+      .memory-section .section-title{font-size:clamp(46px,13vw,58px);line-height:.92;margin-bottom:28px}
+      .memory-decoration.left{left:var(--memory-left-mobile-position);right:auto}
+      .memory-decoration.right{right:var(--memory-right-mobile-position);left:auto}
+      .date-countdown{grid-template-columns:1fr;gap:18px;margin:0 auto 38px;width:100%;max-width:330px}
+      .date-card,.countdown-card{padding:24px 16px}
+      .calendar-title{font-size:29px;margin-bottom:18px}
+      .calendar{max-width:100%}
+      .weekdays,.calendar-grid{gap:3px}
+      .weekdays span{font-size:8px;padding:5px 0}
+      .calendar-grid span{height:34px;font-size:14px}
+      .calendar-grid .wedding-day:before{font-size:33px}
+      .calendar-note{margin-top:16px}
+      .countdown-card{min-height:285px;justify-content:flex-start;padding-top:26px}
+      .countdown-title{font-size:31px;max-width:290px;margin:4px auto 20px}
+      .countdown-days{font-size:78px}
+      .countdown-units{margin-top:24px;gap:8px}
+      .countdown-unit strong{font-size:24px}
+      .countdown-message{font-size:18px}
+      .our-day{background-position:var(--our-day-mobile-position);background-size:var(--our-day-mobile-size)}
+      .details{grid-template-columns:1fr}
+      .detail{border-right:0;border-bottom:1px solid var(--line)}
+      .detail:last-child{border-bottom:0}
+      .event{grid-template-columns:82px 1fr}
+      .time{font-size:24px}
+      .footer{padding:90px 20px}
+      .footer-butterfly.left{left:var(--footer-mobile-left-position);top:auto;width:var(--footer-mobile-left-width)}
+      .footer-butterfly.right{right:var(--footer-mobile-right-position);bottom:auto;width:var(--footer-mobile-right-width)}
+      .opening-label{font-size:8px}
+      .opening-note{font-size:30px}
+      .field input,.field textarea{font-size:16px}
     }
 
-    /* =========================
-       TELEFONOS PEQUENOS
-       ========================= */
-    @media (max-width: 380px) {
-      .section {
-        padding: 68px 16px;
-      }
-
-      .memory-section {
-        padding-left: 32px;
-        padding-right: 32px;
-      }
-
-      .memory-section .section-title {
-        font-size: 43px;
-      }
-
-      .memory-decoration {
-        width: 92px;
-      }
-
-      .date-card,
-      .countdown-card {
-        padding: 20px 12px;
-      }
-
-      .calendar-grid span {
-        height: 31px;
-        font-size: 13px;
-      }
-
-      .calendar-grid .wedding-day:before {
-        font-size: 30px;
-      }
-
-      .countdown-card {
-        min-height: 265px;
-      }
-
-      .countdown-title {
-        font-size: 28px;
-      }
-
-      .countdown-days {
-        font-size: 66px;
-      }
-
-      .countdown-unit strong {
-        font-size: 20px;
-      }
-
-      .footer {
-        padding: 82px 16px;
-      }
-
-      .footer-butterfly.left {
-        left: -19px;
-        width: 68px;
-      }
-
-      .footer-butterfly.right {
-        right: -16px;
-        width: 58px;
-      }
+    @media(max-width:380px){
+      .section{padding:68px 16px}
+      .memory-section{padding-left:32px;padding-right:32px}
+      .memory-section .section-title{font-size:43px}
+      .date-card,.countdown-card{padding:20px 12px}
+      .calendar-grid span{height:31px;font-size:13px}
+      .calendar-grid .wedding-day:before{font-size:30px}
+      .countdown-card{min-height:265px}
+      .countdown-title{font-size:28px}
+      .countdown-days{font-size:66px}
+      .countdown-unit strong{font-size:20px}
+      .footer{padding:82px 16px}
+      .footer-butterfly.left{left:-19px;width:68px}
+      .footer-butterfly.right{right:-16px;width:58px}
     }
   </style>
 </head>
@@ -879,10 +251,7 @@
     <div class="opening-inner">
       <div class="opening-label">Una invitación para celebrar el amor</div>
       <button class="open-button" id="openButton">Abrir invitación</button>
-      <div class="opening-note">
-        Rafael &amp; Valentina
-        <small>Una historia para compartir</small>
-      </div>
+      <div class="opening-note">Rafael &amp; Valentina<small>Una historia para compartir</small></div>
     </div>
   </div>
 
@@ -898,23 +267,16 @@
 
     <section class="section memory-section">
       <img class="memory-decoration left" src="1.png" alt="">
-
       <div class="memory-content">
         <h2 class="section-title">Un día para recordar</h2>
-
         <div class="date-countdown">
           <div class="date-card">
             <div class="date-label">La fecha de nuestro amor</div>
             <div class="calendar-title">Marzo · 2027</div>
-
             <div class="calendar">
-              <div class="weekdays">
-                <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
-              </div>
-
+              <div class="weekdays"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
               <div class="calendar-grid">
-                <span class="empty">0</span><span class="empty">0</span><span class="empty">0</span><span class="empty">0</span><span class="empty">0</span>
-                <span>1</span><span>2</span>
+                <span class="empty">0</span><span class="empty">0</span><span class="empty">0</span><span class="empty">0</span><span class="empty">0</span><span>1</span><span>2</span>
                 <span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
                 <span>10</span><span>11</span><span>12</span><span>13</span><span class="wedding-day">14</span><span>15</span><span>16</span>
                 <span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
@@ -922,90 +284,36 @@
                 <span>31</span><span class="empty">0</span><span class="empty">0</span><span class="empty">0</span>
               </div>
             </div>
-
             <div class="calendar-note">Sábado · 14 de marzo · 2027</div>
           </div>
-
           <div class="countdown-card">
             <div class="countdown-label">Cuenta regresiva</div>
             <h3 class="countdown-title">Faltan para nuestro gran día</h3>
             <div class="countdown-days" id="countdownDays">— <small>días</small></div>
-
             <div class="countdown-units">
-              <div class="countdown-unit">
-                <strong id="countdownHours">—</strong>
-                <span>Horas</span>
-              </div>
-              <div class="countdown-unit">
-                <strong id="countdownMinutes">—</strong>
-                <span>Minutos</span>
-              </div>
-              <div class="countdown-unit">
-                <strong id="countdownSeconds">—</strong>
-                <span>Segundos</span>
-              </div>
+              <div class="countdown-unit"><strong id="countdownHours">—</strong><span>Horas</span></div>
+              <div class="countdown-unit"><strong id="countdownMinutes">—</strong><span>Minutos</span></div>
+              <div class="countdown-unit"><strong id="countdownSeconds">—</strong><span>Segundos</span></div>
             </div>
-
             <div class="countdown-message" id="countdownMessage">Cada día nos acerca un poco más.</div>
           </div>
         </div>
-
         <div class="rule"></div>
-
-        <p class="copy">
-          Hay momentos que marcan nuestras vidas para siempre. Con mucha alegría queremos compartir contigo el comienzo de una nueva etapa y celebrar el amor que nos une.
-        </p>
-
+        <p class="copy">Hay momentos que marcan nuestras vidas para siempre. Con mucha alegría queremos compartir contigo el comienzo de una nueva etapa y celebrar el amor que nos une.</p>
         <p class="quote">“Dos historias, un solo camino y toda una vida por compartir.”</p>
       </div>
-
       <img class="memory-decoration right" src="2.png" alt="">
     </section>
 
     <section class="section our-day">
       <h2 class="section-title">Nuestro día</h2>
       <div class="rule"></div>
-
       <div class="timeline">
-        <div class="event">
-          <div class="time">5:00</div>
-          <div>
-            <h3>Bienvenida</h3>
-            <p>Recepción de invitados, fotografías y cócteles.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="time">6:00</div>
-          <div>
-            <h3>Cena</h3>
-            <p>Cena de bienvenida preparada especialmente para nuestros invitados.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="time">7:00</div>
-          <div>
-            <h3>Brindis</h3>
-            <p>Palabras especiales y un brindis por nuestra nueva historia.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="time">8:00</div>
-          <div>
-            <h3>Fotografías</h3>
-            <p>Sesión oficial de fotografías.</p>
-          </div>
-        </div>
-
-        <div class="event">
-          <div class="time">9:00</div>
-          <div>
-            <h3>Celebración</h3>
-            <p>Música, baile y una noche para disfrutar juntos.</p>
-          </div>
-        </div>
+        <div class="event"><div class="time">5:00</div><div><h3>Bienvenida</h3><p>Recepción de invitados, fotografías y cócteles.</p></div></div>
+        <div class="event"><div class="time">6:00</div><div><h3>Cena</h3><p>Cena de bienvenida preparada especialmente para nuestros invitados.</p></div></div>
+        <div class="event"><div class="time">7:00</div><div><h3>Brindis</h3><p>Palabras especiales y un brindis por nuestra nueva historia.</p></div></div>
+        <div class="event"><div class="time">8:00</div><div><h3>Fotografías</h3><p>Sesión oficial de fotografías.</p></div></div>
+        <div class="event"><div class="time">9:00</div><div><h3>Celebración</h3><p>Música, baile y una noche para disfrutar juntos.</p></div></div>
       </div>
     </section>
 
@@ -1013,43 +321,15 @@
       <div class="celebration-content">
         <h2 class="section-title">La celebración</h2>
         <div class="rule"></div>
-
-        <p class="copy">
-          Te esperamos para compartir una tarde especial rodeados de naturaleza, buena música y las personas que más queremos.
-        </p>
-
+        <p class="copy">Te esperamos para compartir una tarde especial rodeados de naturaleza, buena música y las personas que más queremos.</p>
         <div class="details">
-          <div class="detail">
-            <h3>Fecha</h3>
-            <p>Sábado<br>14 de marzo de 2027</p>
-          </div>
-
-          <div class="detail">
-            <h3>Hora</h3>
-            <p>Ceremonia<br>6:30 PM</p>
-          </div>
-
-          <div class="detail">
-            <h3>Lugar</h3>
-            <p>Hacienda Los Olivos<br>Juticalpa, Olancho</p>
-          </div>
+          <div class="detail"><h3>Fecha</h3><p>Sábado<br>14 de marzo de 2027</p></div>
+          <div class="detail"><h3>Hora</h3><p>Ceremonia<br>6:30 PM</p></div>
+          <div class="detail"><h3>Lugar</h3><p>Hacienda Los Olivos<br>Juticalpa, Olancho</p></div>
         </div>
-
         <div class="info">
-          <div class="info-block">
-            <h3>Código de vestimenta</h3>
-            <p>
-              <strong>Elegante · Formal</strong><br>
-              Te recomendamos vestir con elegancia y comodidad. Los tonos neutros, tierra y colores pastel son bienvenidos.
-            </p>
-          </div>
-
-          <div class="info-block">
-            <h3>Estacionamiento</h3>
-            <p>
-              Habrá estacionamiento gratuito disponible en el lugar. Si necesitas asistencia especial para llegar a la entrada, estaremos encantados de ayudarte.
-            </p>
-          </div>
+          <div class="info-block"><h3>Código de vestimenta</h3><p><strong>Elegante · Formal</strong><br>Te recomendamos vestir con elegancia y comodidad. Los tonos neutros, tierra y colores pastel son bienvenidos.</p></div>
+          <div class="info-block"><h3>Estacionamiento</h3><p>Habrá estacionamiento gratuito disponible en el lugar. Si necesitas asistencia especial para llegar a la entrada, estaremos encantados de ayudarte.</p></div>
         </div>
       </div>
     </section>
@@ -1057,54 +337,19 @@
     <section class="section dark" id="confirmar">
       <h2 class="section-title">Confirma tu asistencia</h2>
       <div class="rule"></div>
-
-      <p class="copy">
-        Será un honor contar con tu presencia. Agradecemos confirmar tu asistencia antes del <strong>28 de febrero de 2027</strong>.
-      </p>
-
+      <p class="copy">Será un honor contar con tu presencia. Agradecemos confirmar tu asistencia antes del <strong>28 de febrero de 2027</strong>.</p>
       <div class="rsvp">
         <form id="rsvpForm">
-          <div class="field">
-            <label for="name">Nombre completo</label>
-            <input id="name" required placeholder="Escribe tu nombre">
-          </div>
-
-          <div class="field">
-            <label>¿Nos acompañarás?</label>
-            <div class="choices">
-              <div class="choice">
-                <input id="yes" type="radio" name="attendance" value="Sí, asistiré" required>
-                <label for="yes">Sí, asistiré</label>
-              </div>
-
-              <div class="choice">
-                <input id="no" type="radio" name="attendance" value="No podré asistir">
-                <label for="no">No podré asistir</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Acompañantes</label>
-            <div class="counter">
-              <button type="button" id="minus">−</button>
-              <output id="guestValue">0</output>
-              <button type="button" id="plus">+</button>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="message">Mensaje para los novios</label>
-            <textarea id="message" placeholder="Déjanos unas palabras..."></textarea>
-          </div>
-
+          <div class="field"><label for="name">Nombre completo</label><input id="name" required placeholder="Escribe tu nombre"></div>
+          <div class="field"><label>¿Nos acompañarás?</label><div class="choices">
+            <div class="choice"><input id="yes" type="radio" name="attendance" value="Sí, asistiré" required><label for="yes">Sí, asistiré</label></div>
+            <div class="choice"><input id="no" type="radio" name="attendance" value="No podré asistir"><label for="no">No podré asistir</label></div>
+          </div></div>
+          <div class="field"><label>Acompañantes</label><div class="counter"><button type="button" id="minus">−</button><output id="guestValue">0</output><button type="button" id="plus">+</button></div></div>
+          <div class="field"><label for="message">Mensaje para los novios</label><textarea id="message" placeholder="Déjanos unas palabras..."></textarea></div>
           <button class="submit" type="submit">Confirmar asistencia</button>
         </form>
-
-        <div class="success" id="success">
-          <h2>Gracias por confirmar</h2>
-          <p>Rafael y Valentina esperan compartir este día tan especial contigo.</p>
-        </div>
+        <div class="success" id="success"><h2>Gracias por confirmar</h2><p>Rafael y Valentina esperan compartir este día tan especial contigo.</p></div>
       </div>
     </section>
 
@@ -1117,113 +362,74 @@
   </main>
 
   <script>
-    /* =========================
-       APERTURA
-       ========================= */
-    const opening = document.getElementById('opening');
-    const openButton = document.getElementById('openButton');
-
-    function openInvite() {
+    /* ========================= APERTURA ========================= */
+    const opening=document.getElementById('opening');
+    const openButton=document.getElementById('openButton');
+    function openInvite(){
       openButton.classList.add('opening-now');
-
-      setTimeout(() => {
+      setTimeout(()=>{
         opening.classList.add('hidden');
         document.body.classList.remove('invite-locked');
-        window.scrollTo(0, 0);
-      }, 420);
+        window.scrollTo(0,0);
+      },420);
     }
-
-    openButton.onclick = openInvite;
-
-    openButton.onkeydown = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openInvite();
-      }
+    openButton.onclick=openInvite;
+    openButton.onkeydown=(e)=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();openInvite()}
     };
 
-    /* =========================
-       CUENTA REGRESIVA
-       ========================= */
-    const weddingDate = new Date('2027-03-14T18:30:00-06:00');
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = weddingDate - now;
-
-      const daysEl = document.getElementById('countdownDays');
-      const hoursEl = document.getElementById('countdownHours');
-      const minutesEl = document.getElementById('countdownMinutes');
-      const secondsEl = document.getElementById('countdownSeconds');
-      const message = document.getElementById('countdownMessage');
-
-      if (diff <= 0) {
-        daysEl.innerHTML = '0 <small>días</small>';
-        hoursEl.textContent = '00';
-        minutesEl.textContent = '00';
-        secondsEl.textContent = '00';
-        message.textContent = 'Hoy comienza nuestra historia.';
+    /* ========================= CUENTA REGRESIVA ========================= */
+    const weddingDate=new Date('2027-03-14T18:30:00-06:00');
+    function updateCountdown(){
+      const now=new Date();
+      const diff=weddingDate-now;
+      const daysEl=document.getElementById('countdownDays');
+      const hoursEl=document.getElementById('countdownHours');
+      const minutesEl=document.getElementById('countdownMinutes');
+      const secondsEl=document.getElementById('countdownSeconds');
+      const message=document.getElementById('countdownMessage');
+      if(diff<=0){
+        daysEl.innerHTML='0 <small>días</small>';
+        hoursEl.textContent='00';minutesEl.textContent='00';secondsEl.textContent='00';
+        message.textContent='Hoy comienza nuestra historia.';
         return;
       }
-
-      const days = Math.floor(diff / 86400000);
-      const hours = Math.floor((diff % 86400000) / 3600000);
-      const minutes = Math.floor((diff % 3600000) / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
-
-      daysEl.innerHTML = days + ' <small>días</small>';
-      hoursEl.textContent = String(hours).padStart(2, '0');
-      minutesEl.textContent = String(minutes).padStart(2, '0');
-      secondsEl.textContent = String(seconds).padStart(2, '0');
+      const days=Math.floor(diff/86400000);
+      const hours=Math.floor((diff%86400000)/3600000);
+      const minutes=Math.floor((diff%3600000)/60000);
+      const seconds=Math.floor((diff%60000)/1000);
+      daysEl.innerHTML=days+' <small>días</small>';
+      hoursEl.textContent=String(hours).padStart(2,'0');
+      minutesEl.textContent=String(minutes).padStart(2,'0');
+      secondsEl.textContent=String(seconds).padStart(2,'0');
     }
-
     updateCountdown();
-    setInterval(updateCountdown, 1000);
+    setInterval(updateCountdown,1000);
 
-    /* =========================
-       RSVP
-       ========================= */
-    let guests = 0;
-    const out = document.getElementById('guestValue');
-    const minus = document.getElementById('minus');
-    const plus = document.getElementById('plus');
-    const no = document.getElementById('no');
-    const yes = document.getElementById('yes');
-    const rsvpForm = document.getElementById('rsvpForm');
-    const success = document.getElementById('success');
-    const name = document.getElementById('name');
-    const message = document.getElementById('message');
-
-    minus.onclick = () => {
-      guests = Math.max(0, guests - 1);
-      out.textContent = guests;
-    };
-
-    plus.onclick = () => {
-      guests = Math.min(10, guests + 1);
-      out.textContent = guests;
-    };
-
-    no.onchange = () => {
-      guests = 0;
-      out.textContent = 0;
-    };
-
-    rsvpForm.onsubmit = (e) => {
+    /* ========================= RSVP ========================= */
+    let guests=0;
+    const out=document.getElementById('guestValue');
+    const minus=document.getElementById('minus');
+    const plus=document.getElementById('plus');
+    const no=document.getElementById('no');
+    const yes=document.getElementById('yes');
+    const rsvpForm=document.getElementById('rsvpForm');
+    const success=document.getElementById('success');
+    const name=document.getElementById('name');
+    const message=document.getElementById('message');
+    minus.onclick=()=>{guests=Math.max(0,guests-1);out.textContent=guests};
+    plus.onclick=()=>{guests=Math.min(10,guests+1);out.textContent=guests};
+    no.onchange=()=>{guests=0;out.textContent=0};
+    rsvpForm.onsubmit=(e)=>{
       e.preventDefault();
-
-      localStorage.setItem(
-        'rafael-valentina-rsvp',
-        JSON.stringify({
-          nombre: name.value,
-          asistencia: document.querySelector('[name=attendance]:checked').value,
-          acompanantes: yes.checked ? guests : 0,
-          mensaje: message.value,
-          fecha: new Date().toISOString()
-        })
-      );
-
-      rsvpForm.style.display = 'none';
+      localStorage.setItem('rafael-valentina-rsvp',JSON.stringify({
+        nombre:name.value,
+        asistencia:document.querySelector('[name=attendance]:checked').value,
+        acompanantes:yes.checked?guests:0,
+        mensaje:message.value,
+        fecha:new Date().toISOString()
+      }));
+      rsvpForm.style.display='none';
       success.classList.add('show');
     };
   </script>
