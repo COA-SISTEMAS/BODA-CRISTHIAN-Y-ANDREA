@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="Confirmación de asistencia — Cristhian & Andrea | 06 de febrero de 2027">
+<title>Cristhian & Andrea · Confirmación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#f5f2eb;--ink:#f8f6f1;--muted:#d7d3cb;--line:rgba(255,255,255,.38);--glass:rgba(13,13,13,.62)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#111;color:var(--ink);font-family:Montserrat,Arial,sans-serif;font-weight:300}
+.page{min-height:100svh;position:relative;overflow:hidden;background:#111}
+.hero{min-height:100svh;display:flex;align-items:flex-end;justify-content:center;position:relative;background-image:linear-gradient(180deg,rgba(0,0,0,.48),rgba(0,0,0,.18) 35%,rgba(0,0,0,.78)),url('assets/wedding-bg.jpg');background-size:cover;background-position:center;isolation:isolate}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,transparent 0,rgba(0,0,0,.05) 42%,rgba(0,0,0,.35) 100%);pointer-events:none}
+.top{position:absolute;top:6.5vh;left:5vw;right:5vw;text-align:center;z-index:2;animation:fadeDown 1.2s ease both}
+.names{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(3.7rem,9vw,8rem);font-weight:400;letter-spacing:.035em;line-height:.82;text-transform:uppercase;text-shadow:0 2px 18px rgba(0,0,0,.28)}
+.names span{font-size:1.08em;font-weight:300;font-style:italic;text-transform:none;margin:0 .08em}.date{margin-top:2rem;font-size:.75rem;letter-spacing:.34em;text-transform:uppercase;color:#eee}
+.card{position:relative;z-index:3;width:min(620px,calc(100% - 28px));margin:0 auto 28px;padding:30px 28px 28px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 70px rgba(0,0,0,.38);animation:rise 1.2s .15s ease both}
+.eyebrow{text-align:center;font-size:.65rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}.card h1{text-align:center;margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2.1rem,7vw,3.6rem);font-weight:400}.intro{text-align:center;color:#e4e1db;font-size:.82rem;line-height:1.7;max-width:470px;margin:8px auto 24px}
+.divider{width:55px;height:1px;background:rgba(255,255,255,.55);margin:0 auto 22px}.form{display:grid;gap:16px}.field label{display:block;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#ddd;margin:0 0 8px}.field input,.field textarea{width:100%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;padding:13px 14px;outline:none;font:300 .82rem Montserrat,sans-serif;transition:.25s}.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.55)}.field input:focus,.field textarea:focus{border-color:#fff;background:rgba(255,255,255,.12)}textarea{min-height:92px;resize:vertical}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{position:relative}.choice input{position:absolute;opacity:0}.choice label{display:flex;align-items:center;justify-content:center;min-height:48px;border:1px solid rgba(255,255,255,.28);padding:10px;text-align:center;cursor:pointer;color:#e6e2db;transition:.25s;font-size:.7rem;letter-spacing:.08em}.choice input:checked+label{background:#f5f2eb;color:#111;border-color:#f5f2eb}
+.counter{display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(255,255,255,.28);padding:5px 7px}.counter button{width:38px;height:36px;border:0;background:rgba(255,255,255,.1);color:#fff;font-size:1.2rem;cursor:pointer}.counter output{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.55rem}.submit{border:1px solid #f5f2eb;background:#f5f2eb;color:#111;min-height:52px;padding:14px 18px;font:500 .68rem Montserrat,sans-serif;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:.3s}.submit:hover{background:transparent;color:#fff}.fine{text-align:center;color:#bdb9b1;font-size:.58rem;line-height:1.6;margin:0}
+.success{display:none;text-align:center;padding:10px 5px 4px}.success.show{display:block}.success .heart{font-size:2rem;margin-bottom:5px}.success h2{font:400 2.5rem "Cormorant Garamond",Georgia,serif;margin:0 0 8px}.success p{color:#ddd;line-height:1.7;font-size:.8rem}.again{margin-top:15px;border:0;background:transparent;color:#eee;text-decoration:underline;cursor:pointer;font:300 .68rem Montserrat,sans-serif}
+.corner{position:absolute;z-index:4;top:22px;left:22px;width:28px;height:28px;border-top:1px solid rgba(255,255,255,.5);border-left:1px solid rgba(255,255,255,.5)}.corner.r{left:auto;right:22px;border-left:0;border-right:1px solid rgba(255,255,255,.5)}
+@keyframes rise{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:none}}@keyframes fadeDown{from{opacity:0;transform:translateY(-25px)}to{opacity:1;transform:none}}
+@media(max-width:650px){.hero{align-items:flex-end;background-position:58% center}.top{top:7vh}.names{font-size:clamp(3.2rem,15vw,5.1rem);line-height:.84}.date{font-size:.58rem;letter-spacing:.24em;margin-top:1.5rem}.card{margin-bottom:14px;padding:25px 19px 22px;width:calc(100% - 20px)}.card h1{font-size:2.5rem}.intro{font-size:.76rem}.choices{gap:7px}.choice label{font-size:.62rem}}
+@media(min-width:900px){.card{margin-bottom:42px}.hero{background-position:center center}}
+</style>
+</head>
+<body>
+<main class="page">
+<section class="hero">
+<div class="corner"></div><div class="corner r"></div>
+<header class="top"><h2 class="names">Cristhian <span>&amp;</span> Andrea</h2><div class="date">Febrero 06, 2027</div></header>
+<section class="card" aria-label="Confirmación de asistencia">
+<div id="formView">
+<div class="eyebrow">Nuestra boda</div>
+<h1>Confirma tu asistencia</h1>
+<div class="divider"></div>
+<p class="intro">Nos hará muy felices compartir este momento tan especial contigo. Por favor, confirma tu asistencia para acompañarnos en este día.</p>
+<form class="form" id="rsvpForm">
+<div class="field"><label for="name">Nombre completo</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Escribe tu nombre" required></div>
+<div class="field"><label>¿Nos acompañarás?</label><div class="choices"><div class="choice"><input id="yes" type="radio" name="attendance" value="Sí, asistiré" required><label for="yes">Sí, asistiré</label></div><div class="choice"><input id="no" type="radio" name="attendance" value="No podré asistir"><label for="no">No podré asistir</label></div></div></div>
+<div class="field" id="guestsField"><label for="guests">Número de acompañantes</label><div class="counter"><button type="button" id="minus" aria-label="Disminuir">−</button><output id="guestValue">0</output><button type="button" id="plus" aria-label="Aumentar">+</button></div></div>
+<div class="field"><label for="message">Mensaje para los novios <span style="opacity:.55">(opcional)</span></label><textarea id="message" name="message" placeholder="Déjanos unas palabras..."></textarea></div>
+<button class="submit" type="submit">Confirmar asistencia</button>
+<p class="fine">Tu confirmación nos ayudará a preparar cada detalle con mucho cariño.</p>
+</form>
+</div>
+<div class="success" id="successView"><div class="heart">♡</div><h2>¡Gracias por confirmar!</h2><p>Cristhian y Andrea esperan compartir este día tan especial contigo.</p><button class="again" id="again" type="button">Modificar confirmación</button></div>
+</section>
+</section>
+</main>
+<script>
+const form=document.getElementById('rsvpForm'), value=document.getElementById('guestValue'), minus=document.getElementById('minus'), plus=document.getElementById('plus'), yes=document.getElementById('yes'), no=document.getElementById('no'), guestsField=document.getElementById('guestsField'), formView=document.getElementById('formView'), successView=document.getElementById('successView');
+let guests=0;
+function renderGuests(){value.textContent=guests}
+minus.onclick=()=>{guests=Math.max(0,guests-1);renderGuests()};plus.onclick=()=>{guests=Math.min(10,guests+1);renderGuests()};
+no.addEventListener('change',()=>{if(no.checked){guests=0;renderGuests();guestsField.style.opacity='.45'} });
+yes.addEventListener('change',()=>{guestsField.style.opacity='1'});
+form.addEventListener('submit',e=>{e.preventDefault();const data={nombre:document.getElementById('name').value.trim(),asistencia:document.querySelector('input[name="attendance"]:checked').value,acompanantes:yes.checked?guests:0,mensaje:document.getElementById('message').value.trim(),fechaRegistro:new Date().toISOString()};localStorage.setItem('boda-cristhian-andrea-rsvp',JSON.stringify(data));formView.style.display='none';successView.classList.add('show');window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})});
+document.getElementById('again').onclick=()=>{successView.classList.remove('show');formView.style.display='block'};
+</script>
+</body>
+</html>
